@@ -21,5 +21,11 @@ class User extends Authenticatable
     public function position() {
         return $this->hasOne('App\Models\CommitteePositions', 'position_id', 'positionid');
     }
+
+    public function profile() {
+        $user = $this->hasOne('App\Models\MemberDetails', 'member_id', 'member_id');
+        return $user;
+         
+    }
     
 }
