@@ -79,10 +79,10 @@ CREATE TABLE `expense_documents` (
 CREATE TABLE `members` (
   `member_id` int(10) UNSIGNED NOT NULL,
   `membership_no` varchar(10) DEFAULT NULL,
-  `password` char(40) DEFAULT NULL,
-  `otp` char(40) DEFAULT NULL,
-  `websession` char(40) DEFAULT NULL,
-  `appsession` char(40) DEFAULT NULL,
+  `password` char(60) DEFAULT NULL,
+  `otp` char(60) DEFAULT NULL,
+  `websession` char(60) DEFAULT NULL,
+  `appsession` char(60) DEFAULT NULL,
   `positionid` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `membership_status` char(3) NOT NULL DEFAULT 'OFF'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -126,6 +126,7 @@ CREATE TABLE `member_details` (
   `pf_no` varchar(45) DEFAULT NULL,
   `designation` varchar(45) DEFAULT NULL,
   `hq` varchar(50) DEFAULT NULL,
+  `salutation` char(5) DEFAULT NULL,
   `first_name` varchar(45) NOT NULL,
   `last_name` varchar(45) NOT NULL,
   `father_husband_name` varchar(65) NOT NULL,
@@ -142,7 +143,8 @@ CREATE TABLE `messages` (
   `to_member_id` int(10) UNSIGNED NOT NULL,
   `from_member_id` int(10) UNSIGNED NOT NULL,
   `heading` tinytext,
-  `message` text NOT NULL
+  `message` text NOT NULL,
+  `status` CHAR(1) NOT NULL DEFAULT 'n'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `nominee` (
