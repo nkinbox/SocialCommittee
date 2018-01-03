@@ -81,10 +81,10 @@ CREATE TABLE `members` (
   `membership_no` varchar(10) DEFAULT NULL,
   `password` char(60) DEFAULT NULL,
   `otp` char(60) DEFAULT NULL,
-  `websession` char(60) DEFAULT NULL,
+  `remember_token` char(100) DEFAULT NULL,
   `appsession` char(60) DEFAULT NULL,
   `positionid` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `membership_status` char(3) NOT NULL DEFAULT 'OFF'
+  `membership_status` char(3) NOT NULL DEFAULT 'ON'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `membership_fees` (
@@ -189,6 +189,11 @@ CREATE TABLE `receipts_documents` (
   `file_extn` char(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `password_resets` (
+  `email` varchar(45) DEFAULT NULL,
+  `token` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE `bank_details`
   ADD PRIMARY KEY (`bank_id`);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\MemberDetails;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -46,11 +47,11 @@ class RegisterController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
-    {
+    {   
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'membership_no' => 'required|max:10|unique:members|exists:member_details',
             'password' => 'required|string|min:6|confirmed',
+            'positionid' => 'numeric',
         ]);
     }
 
@@ -61,11 +62,14 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data)
-    {
+    {   
+        $member_id = MemberDetails::where('membership_no', $data['membership_no'])->pluck('member_id')->all();
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'member_id' => $member_id[0],
+            'membership_no' => $data['membership_no'],
             'password' => bcrypt($data['password']),
         ]);
+        
+
     }
 }
