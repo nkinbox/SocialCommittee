@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\API\Auth;
 
 use App\Models\User;
 use App\Models\MemberDetails;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -63,12 +65,20 @@ class RegisterController extends Controller
     protected function create(array $data)
     {   
         $member_id = MemberDetails::where('membership_no', $data['membership_no'])->pluck('member_id')->all();
-        return User::create([
+        User::create([
             'member_id' => $member_id[0],
             'membership_no' => $data['membership_no'],
             'password' => bcrypt($data['password']),
         ]);
         
 
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        $this->create($request->all());
+        return response()->json(array("message"=>"success"));
     }
 }

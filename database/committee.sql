@@ -82,7 +82,7 @@ CREATE TABLE `members` (
   `password` char(60) DEFAULT NULL,
   `otp` char(60) DEFAULT NULL,
   `remember_token` char(100) DEFAULT NULL,
-  `appsession` char(60) DEFAULT NULL,
+  `api_token` char(60) DEFAULT NULL,
   `positionid` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `membership_status` char(3) NOT NULL DEFAULT 'ON'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

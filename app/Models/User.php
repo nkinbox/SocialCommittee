@@ -15,7 +15,7 @@ class User extends Authenticatable
         'member_id', 'membership_no', 'password'
     ];
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'api_token', 'otp'
     ];
 
     public function position() {
