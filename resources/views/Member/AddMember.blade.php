@@ -10,6 +10,9 @@
         </ul>
     </div>
 @endif
+@if(!empty($member))
+{{$member}}
+@endif
 add member
 <form action="{{route('addMember')}}" method="post">
         {{ csrf_field() }}

@@ -8,6 +8,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/addmember', 'Member\Addmember@store')->name('addMember');
     Route::get('/pending', 'Member\EditMember@pendingApplications')->name('pendingApproval');
     Route::get('/member/{id}', 'Member\EditMember@show')->name('showMember');
-    Route::post('/member/{id}', 'Member\EditMember@edit')->name('editMember');
+    Route::get('/member/edit/{id}', 'Member\EditMember@edit')->name('editMemberForm');
+    Route::post('/member/{id}', 'Member\EditMember@update')->name('editMember');
     Route::delete('/member/{id}', 'Member\EditMember@destroy')->name('destroyMember');
 });

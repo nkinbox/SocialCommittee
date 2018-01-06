@@ -19,9 +19,13 @@ class EditMember extends Controller
     }
     public function show($id) {
         $member = MemberDetails::find($id);
-        return view('Member.Profile')->with('member', $member);
+        return view('Member.Profile')->with(['member' => $member, 'edit' => true]);
     }
-    public function edit(Request $request, $id) {
+    public function edit($id) {
+        $member = MemberDetails::find($id);
+        return view('Member.AddMember')->with('member', $member);
+    }
+    public function update(Request $request, $id) {
 
     }
     public function destroy($id) {
