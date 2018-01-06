@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Response;
 use Request;
 
-class PositionMiddleware
+class AuthLevelMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,10 @@ class PositionMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $positionid)
+    public function handle($request, Closure $next, $auth_level)
     {   
-        if ($request->user() && $request->user()->positionid >= $positionid)
-        {
+        if ($request->user()->auth_level->pluck('authlevel')->search($auth_level) !== false)
+        {   
             return $next($request);
         }
         if (Request::wantsJson()) {

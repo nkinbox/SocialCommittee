@@ -30,6 +30,17 @@ CREATE TABLE `committee_positions` (
   `position_name` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `auth_level` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `position_id` int(10) UNSIGNED DEFAULT NULL,
+  `authlevel` int(10) UNSIGNED DEFAULT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `authpolicy` (
+   `authlevel` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+   `description` TINYTEXT NULL ,
+   PRIMARY KEY (`authlevel`)) ENGINE = InnoDB;
+
 CREATE TABLE `ecs_details` (
   `ecs_id` int(10) UNSIGNED NOT NULL,
   `member_id` int(10) UNSIGNED NOT NULL,
@@ -110,9 +121,9 @@ CREATE TABLE `member_details` (
   `applied_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `approved_on` datetime DEFAULT NULL,
   `status` char(1) NOT NULL DEFAULT 'p',
-  `nominee_id` int(10) UNSIGNED ZEROFILL NOT NULL,
-  `referral_id` int(10) UNSIGNED ZEROFILL NOT NULL,
-  `lobbyhead_id` int(10) UNSIGNED ZEROFILL NOT NULL,
+  `nominee_id` int(10) UNSIGNED DEFAULT NULL,
+  `referral_id` int(10) UNSIGNED DEFAULT NULL,
+  `lobbyhead_id` int(10) UNSIGNED DEFAULT NULL,
   `image_name` char(20) DEFAULT NULL,
   `image_extn` char(3) DEFAULT NULL,
   `added_by` int(10) UNSIGNED NOT NULL,

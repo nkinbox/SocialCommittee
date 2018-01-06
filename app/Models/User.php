@@ -27,5 +27,9 @@ class User extends Authenticatable
         return $user;
          
     }
+
+    public function auth_level() {
+        return $this->hasMany('App\Models\AuthLevel', 'position_id', 'positionid');
+    }
     
 }
