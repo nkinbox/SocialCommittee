@@ -13,6 +13,20 @@ class EditMember extends Controller
     {
         $this->middleware('authLevel:3');
     }
+    public function pendingApplications() {
+        $members = MemberDetails::where('status', 'p')->paginate(10);
+        return view('Member.PendingMembers')->with('members', $members);
+    }
+    public function show($id) {
+        $member = MemberDetails::find($id);
+        return view('Member.Profile')->with('member', $member);
+    }
+    public function edit(Request $request, $id) {
+
+    }
+    public function destroy($id) {
+
+    }
     /*
             $request->validate([
             'membership_no' => 'required|max:',
