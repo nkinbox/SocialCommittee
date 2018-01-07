@@ -31,10 +31,10 @@ CREATE TABLE `committee_positions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `auth_level` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `position_id` int(10) UNSIGNED DEFAULT NULL,
   `authlevel` int(10) UNSIGNED DEFAULT NULL,
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `authpolicy` (
    `authlevel` INT UNSIGNED NOT NULL AUTO_INCREMENT ,

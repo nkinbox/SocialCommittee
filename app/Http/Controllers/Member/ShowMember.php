@@ -17,4 +17,8 @@ class ShowMember extends Controller
         $member = MemberDetails::find(Auth::id());
         return view('Member.Profile')->with('member', $member);
     }
+    public function show($id) {
+        $member = MemberDetails::find($id);
+        return view('Member.Profile')->with('member', $member);
+    }
 }

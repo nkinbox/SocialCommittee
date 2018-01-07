@@ -43,9 +43,9 @@ class AddMember extends Controller
             'permanent_address' => 'max:250',
         ]);
         $member = new MemberDetails;
-        $referral_id = $member::where('membership_no', $request->introduced_by)->pluck('member_id')->all();
+        $referral_id = $member::where('membership_no', $request->introduced_by)->pluck('member_id')->first();
         //$member->applied_on = $request->
-        $member->referral_id = $referral_id[0];
+        $member->referral_id = $referral_id;
         $member->lobbyhead_id = Auth::id();
         //$member->image_name = $request->
         //$member->image_extn = $request->
