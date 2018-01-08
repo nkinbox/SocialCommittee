@@ -67,7 +67,7 @@ class AddMember extends Controller
         $member->email = $request->email;
         $member->dob = date('Y-m-d', strtotime($request->dob));
         $member->doa = date('Y-m-d', strtotime($request->doa));
-        $member->dor = date('Y-m-d', strtotime($request->dor));  //tochange
+        $member->dor = date('Y-m-d', strtotime($request->dor));
         $member->current_address = $request->current_address;
         $member->permanent_address = $request->permanent_address;
         $member->save();

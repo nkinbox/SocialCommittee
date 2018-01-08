@@ -9,4 +9,8 @@ class MemberDetails extends Model
     protected $table = "member_details";
     protected $primaryKey = "member_id";
     public $timestamps = false;
+
+    public function userModel() {
+        return $this->hasOne('App\Models\User', 'member_id', 'member_id');
+    }
 }

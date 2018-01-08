@@ -22,6 +22,8 @@
                     <h1>Links</h1>
                     <div><a href="{{route('addMemberForm')}}">Add Member</a></div>
                     <div><a href="{{route('pendingApproval')}}">Pending Approvals</a></div>
+                    <div><a href="{{route('AllMemberList')}}">All Member List</a></div>
+                    <div><a href="{{route('LobbyMemberList')}}">Lobby Member List</a></div>
                 </div>
             </div>
         </div>

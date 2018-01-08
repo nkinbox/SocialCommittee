@@ -11,9 +11,7 @@
                     @if(!empty($member))
                     <div>
                     <h1>{{$member->first_name . ' ' . $member->last_name}}</h1>
-                    @if(!empty($edit))
                     <a href="{{ route('editMemberForm', ['id' => $member->member_id]) }}">Edit</a>
-                    @endif
                     {{$member}}
                     </div>
                     @else
