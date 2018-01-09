@@ -13,4 +13,7 @@ class MemberDetails extends Model
     public function userModel() {
         return $this->hasOne('App\Models\User', 'member_id', 'member_id');
     }
+    public function nominee() {
+        return $this->hasMany('App\Models\Nominee', 'member_id', 'member_id');
+    }
 }

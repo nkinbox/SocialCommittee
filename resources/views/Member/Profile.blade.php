@@ -14,6 +14,26 @@
                     <a href="{{ route('editMemberForm', ['id' => $member->member_id]) }}">Edit</a>
                     {{$member}}
                     </div>
+                    <div>
+                        <h2>Nominee</h2>
+                        <div><a href="{{ route('addNomineeForm', ['member_id' => $member->member_id]) }}">Add Nominee</a></div>
+                        @if(count($nominees) > 0)
+                        @foreach($nominees as $nominee)
+                        <div>{{$nominee}}</div>
+                        <div><a href="{{ route('editNomineeForm', ['nominee_id' => $nominee->nominee_id]) }}">Edit</a></div>
+                        <div>
+                            <form action="{{ route('deleteNominee') }}" method="post">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="nominee_id" value="{{ $nominee->nominee_id }}">
+                                <input type="hidden" name="_method" value="delete">
+                                <button>Delete</button>
+                            </form>
+                            
+                        @endforeach
+                        @else
+                        <p>No Nominee.</p>
+                        @endif
+                    </div>
                     @else
                     <p>No Members to show</p>
                     @endif

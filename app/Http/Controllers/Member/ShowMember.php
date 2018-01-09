@@ -15,10 +15,18 @@ class ShowMember extends Controller
     }
     public function profile() {
         $member = MemberDetails::find(Auth::id());
-        return view('Member.Profile')->with('member', $member);
+        $nominees = $member->nominee()->where('deleted','n')->get();
+        return view('Member.Profile')->with([
+            'member' => $member,
+            'nominees' => $nominees,
+        ]);
     }
     public function show($id) {
         $member = MemberDetails::find($id);
-        return view('Member.Profile')->with('member', $member);
+        $nominees = $member->nominee()->where('deleted','n')->get();
+        return view('Member.Profile')->with([
+            'member' => $member,
+            'nominees' => $nominees,
+        ]);
     }
 }

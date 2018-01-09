@@ -121,7 +121,6 @@ CREATE TABLE `member_details` (
   `applied_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `approved_on` datetime DEFAULT NULL,
   `status` char(1) NOT NULL DEFAULT 'p',
-  `nominee_id` int(10) UNSIGNED DEFAULT NULL,
   `referral_id` int(10) UNSIGNED DEFAULT NULL,
   `lobbyhead_id` int(10) UNSIGNED DEFAULT NULL,
   `image_name` char(20) DEFAULT NULL,
@@ -161,6 +160,7 @@ CREATE TABLE `messages` (
 CREATE TABLE `nominee` (
   `nominee_id` int(10) UNSIGNED NOT NULL,
   `member_id` int(11) NOT NULL,
+  `salutation` char(5) DEFAULT NULL,
   `first_name` varchar(45) NOT NULL,
   `last_name` varchar(45) NOT NULL,
   `email` varchar(45) DEFAULT NULL,
@@ -169,6 +169,7 @@ CREATE TABLE `nominee` (
   `altmobile_no` char(10) DEFAULT NULL,
   `image_name` char(20) DEFAULT NULL,
   `image_extn` char(3) DEFAULT NULL,
+  `deleted` char(1) NOT NULL DEFAULT 'n',
   `address` tinytext
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

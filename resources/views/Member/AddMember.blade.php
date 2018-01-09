@@ -13,9 +13,11 @@
 add member
 <form action="{{route('addMember')}}" method="post">
         {{ csrf_field() }}
-    <select name="salutation">
-        <option>Mr</option>
-    </select>
+<select name="salutation">
+    <option>Mr.</option>
+    <option>Ms.</option>
+    <option>Mrs.</option>
+</select>
 <input type="text" name="first_name" placeholder="first_name"  value="{{ old('first_name') }}">
 <input type="text" name="last_name" placeholder="last_name" value="{{ old('last_name') }}">
 <input type="text" name="hq" placeholder="hq" value="{{ old('hq') }}">
