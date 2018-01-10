@@ -16,4 +16,7 @@ class MemberDetails extends Model
     public function nominee() {
         return $this->hasMany('App\Models\Nominee', 'member_id', 'member_id');
     }
+    public function profileDocs() {
+        return $this->hasMany('App\Models\ProfileDocuments', 'member_id', 'member_id');
+    }
 }

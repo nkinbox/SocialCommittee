@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Member;
+namespace App\Http\Controllers\API\Member;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,20 +17,22 @@ class ShowMember extends Controller
         $member = MemberDetails::find(Auth::id());
         $nominees = $member->nominee()->where('deleted','n')->get();
         $docs = $member->profileDocs()->get();
-        return view('Member.Profile')->with([
-            'member' => $member,
+        return response()->json([
+            'message' => "success",
+            'data' => ['member' => $member,
             'nominees' => $nominees,
-            'profile_docs' => $docs,
+            'profile_docs' => $docs,]
         ]);
     }
-    public function show($id) {
-        $member = MemberDetails::find($id);
+    public function show(Request $request) {
+        $member = MemberDetails::find($request->member_id);
         $nominees = $member->nominee()->where('deleted','n')->get();
         $docs = $member->profileDocs()->get();
-        return view('Member.Profile')->with([
-            'member' => $member,
+        return response()->json([
+            'message' => "success",
+            'data' => ['member' => $member,
             'nominees' => $nominees,
-            'profile_docs' => $docs,
+            'profile_docs' => $docs,]
         ]);
     }
 }

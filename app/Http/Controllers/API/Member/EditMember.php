@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Member;
+namespace App\Http\Controllers\API\Member;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -9,6 +9,7 @@ use App\Models\CommitteePositions;
 use App\Models\User;
 use App\Models\ProfileDocuments;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EditMember extends Controller
 {
@@ -18,24 +19,31 @@ class EditMember extends Controller
     }
     public function pendingApplications() {
         $members = MemberDetails::where('status', 'p')->paginate(10);
-        return view('Member.MembersList')->with('members', $members);
-    }
-    public function show($id) {
-        $member = MemberDetails::find($id);
-        $nominees = $member->nominee()->where('deleted','n')->get();
-        $docs = $member->profileDocs()->get();
-        return view('Member.Profile')->with([
-            'member' => $member,
-            'nominees' => $nominees,
-            'profile_docs' => $docs,
+        return response()->json([
+            'message'=>'success',
+            'members'=> $members
         ]);
     }
-    public function edit($id) {
-        $member = MemberDetails::find($id);
+    public function show(Request $request) {
+        $member = MemberDetails::find($request->member_id);
+        $nominees = $member->nominee()->where('deleted','n')->get();
+        $docs = $member->profileDocs()->get();
+        return response()->json([
+            'message' => "success",
+            'data' => ['member' => $member,
+            'nominees' => $nominees,
+            'profile_docs' => $docs,]
+        ]);
+    }
+    public function edit(Request $request) {
+        $member = MemberDetails::find($request->member_id);
         $lobbyheads = MemberDetails::find(User::where('positionid', CommitteePositions::where('position_name', 'Lobby Head')->pluck('position_id')->first())
         ->where('membership_status', 'ON')->get());
         $positions = CommitteePositions::all();
-        return view('Member.EditMember')->with(['member' => $member, 'lobbyheads' => $lobbyheads, 'positions' => $positions]);
+        return response()->json([
+            'message' => 'success',
+            'data' => ['member' => $member, 'lobbyheads' => $lobbyheads, 'positions' => $positions]
+            ]);
     }
     public function update(Request $request, $id) {
         $request->validate([
@@ -78,12 +86,11 @@ class EditMember extends Controller
             $user->save();
         }
         $photograph = null;
-        if($request->hasFile('photograph')) {
-            $extn = $request->file('photograph')->getClientOriginalExtension();
+        if($request->has('photograph')) {
+            $extn = 'jpg';
             $photograph = md5(str_random(20).time()) . '.' .$extn;
-            $request->file('photograph')->storeAs(
-                'public/photograph', $photograph
-            );
+            $content = base64_decode($request->photograph);
+            Storage::put('public/photograph/'. $photograph, $content);
         }
         $member = MemberDetails::find($id);
         $status = $member->status;
@@ -116,24 +123,21 @@ class EditMember extends Controller
         $member->permanent_address = $request->permanent_address;
         $member->save();
 
-        if($request->hasFile('docs')) {
+        if($request->has('docs')) {
             $documents = array();
-        foreach($request->file('docs') as $key=>$doc) {
-            $extn = $doc->getClientOriginalExtension();
+        foreach($request->docs as $key=>$doc) {
+            $extn = 'jpg';
             $document = md5(str_random(20).time()) . '.' .$extn;
-            $doc->storeAs(
-                'public/documents', $document
-            );
+            $content = base64_decode($doc);
+            Storage::put('public/documents/'. $document, $content);
             $docname = "(name not given)";
             if(array_key_exists($key, $request->docs_name) && $request->docs_name[$key] != null)
             $docname = $request->docs_name[$key];
-            $documents[] = array("member_id" => $id, "document_name" => $docname, "file_name" => $document);
+            $documents[] = array("member_id" => $member->member_id, "document_name" => $docname, "file_name" => $document);
         }
         ProfileDocuments::insert($documents);
         }
-        if($status == "p" && $request->status == "a")
-        return redirect()->route('pendingApproval')->with('message', "Member Approved Successfully.");
-        return redirect('home')->with('message', "Member Details Updated Successfully.");
+        return response()->json(['message'=>"success"]);
     }
     public function position_allot(Request $request, $id) {
         $member = User::find($id);
@@ -141,7 +145,7 @@ class EditMember extends Controller
         $member->positionid = $request->position_id;
         $member->save();
         }
-        return redirect('home')->with('message', "Member Details Updated Successfully.");
+        return response()->json(['message'=>"success"]);
     }
     public function destroy($id) {
 

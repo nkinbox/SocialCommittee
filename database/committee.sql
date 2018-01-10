@@ -123,8 +123,7 @@ CREATE TABLE `member_details` (
   `status` char(1) NOT NULL DEFAULT 'p',
   `referral_id` int(10) UNSIGNED DEFAULT NULL,
   `lobbyhead_id` int(10) UNSIGNED DEFAULT NULL,
-  `image_name` char(20) DEFAULT NULL,
-  `image_extn` char(3) DEFAULT NULL,
+  `image_name` char(37) DEFAULT NULL,
   `added_by` int(10) UNSIGNED NOT NULL,
   `fees_mode` char(3) DEFAULT NULL,
   `railway_id` varchar(45) DEFAULT NULL,
@@ -191,8 +190,7 @@ CREATE TABLE `profile_documents` (
   `sno` int(10) UNSIGNED NOT NULL,
   `member_id` int(10) UNSIGNED NOT NULL,
   `document_name` varchar(100) NOT NULL,
-  `file_name` char(20) NOT NULL,
-  `file_extn` char(3) NOT NULL
+  `file_name` char(37) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `receipts_documents` (

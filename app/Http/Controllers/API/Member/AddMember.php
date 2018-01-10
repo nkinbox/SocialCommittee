@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Member;
+namespace App\Http\Controllers\API\Member;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\MemberDetails;
 use App\Models\ProfileDocuments;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Validator;
 
 class AddMember extends Controller
@@ -42,16 +43,15 @@ class AddMember extends Controller
             'dor' => 'nullable|date',
             'current_address' => 'required|max:250',
             'permanent_address' => 'max:250',
-            'photograph' => 'required|image|max:2000',
-            'docs_name.*' => 'nullable|max:100',
-            'docs.*' => 'nullable|image|max:2000',
+            'photograph' => 'required',
+            'docs_name.*' => 'nullable',
+            'docs.*' => 'nullable',
         ]);
-        if($request->hasFile('photograph')) {
-            $extn = $request->file('photograph')->getClientOriginalExtension();
+        if($request->has('photograph')) {
+            $extn = 'jpg';
             $photograph = md5(str_random(20).time()) . '.' .$extn;
-            $request->file('photograph')->storeAs(
-                'public/photograph', $photograph
-            );
+            $content = base64_decode($request->photograph);
+            Storage::put('public/photograph/'. $photograph, $content);
         }
         $member = new MemberDetails;
         $referral_id = $member::where('membership_no', $request->introduced_by)->pluck('member_id')->first();
@@ -81,14 +81,13 @@ class AddMember extends Controller
         $member->save();
         $member->member_id;
 
-        if($request->hasFile('docs')) {
+        if($request->has('docs')) {
             $documents = array();
-        foreach($request->file('docs') as $key=>$doc) {
-            $extn = $doc->getClientOriginalExtension();
+        foreach($request->docs as $key=>$doc) {
+            $extn = 'jpg';
             $document = md5(str_random(20).time()) . '.' .$extn;
-            $doc->storeAs(
-                'public/documents', $document
-            );
+            $content = base64_decode($doc);
+            Storage::put('public/documents/'. $document, $content);
             $docname = "(name not given)";
             if(array_key_exists($key, $request->docs_name) && $request->docs_name[$key] != null)
             $docname = $request->docs_name[$key];
@@ -96,6 +95,6 @@ class AddMember extends Controller
         }
         ProfileDocuments::insert($documents);
         }
-        return redirect('home')->with('message',"Member Details sent for Approval Successfully.");
+        return response()->json(['message'=>"success"]);
     }
 }

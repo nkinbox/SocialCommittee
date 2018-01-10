@@ -14,7 +14,7 @@
 
 Edit member
 
-<form action="{{route('editMember' , ['id' => $member->member_id])}}" method="post">
+<form action="{{route('editMember' , ['id' => $member->member_id])}}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
 <select name="lobbyhead_id">
     <option value="1">None Selected</option>
@@ -69,6 +69,29 @@ Edit member
 <input type="text" name="altmobile_no" placeholder="altmobile_no" value="{{ old('altmobile_no', $member->altmobile_no) }}">
 <input type="text" name="current_address" placeholder="current_address" value="{{ old('current_address', $member->current_address) }}">
 <input type="text" name="permanent_address" placeholder="permanent_address" value="{{ old('permanent_address', $member->permanent_address) }}">
+<div>
+    Passport Image<input type="file" name="photograph">
+    <div>
+    <input type="text" name="docs_name[]" placeholder="Document Name">
+    <input type="file" name="docs[]">
+    </div>
+    <div>
+    <input type="text" name="docs_name[]" placeholder="Document Name">
+    <input type="file" name="docs[]">
+    </div>
+    <div>
+    <input type="text" name="docs_name[]" placeholder="Document Name">
+    <input type="file" name="docs[]">
+    </div>
+    <div>
+    <input type="text" name="docs_name[]" placeholder="Document Name">
+    <input type="file" name="docs[]">
+    </div>
+    <div>
+    <input type="text" name="docs_name[]" placeholder="Document Name">
+    <input type="file" name="docs[]">
+    </div>
+</div>
 <button>Submit</button>
 
 </form>

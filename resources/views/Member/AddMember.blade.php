@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 @if ($errors->any())
     <div class="alert alert-danger">
@@ -11,7 +10,7 @@
     </div>
 @endif
 add member
-<form action="{{route('addMember')}}" method="post">
+<form action="{{route('addMember')}}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
 <select name="salutation">
     <option>Mr.</option>
@@ -37,6 +36,29 @@ add member
 <input type="text" name="altmobile_no" placeholder="altmobile_no" value="{{ old('altmobile_no') }}">
 <input type="text" name="current_address" placeholder="current_address" value="{{ old('current_address') }}">
 <input type="text" name="permanent_address" placeholder="permanent_address" value="{{ old('permanent_address') }}">
+<div>
+Passport Image<input type="file" name="photograph">
+<div>
+<input type="text" name="docs_name[]" placeholder="Document Name">
+<input type="file" name="docs[]">
+</div>
+<div>
+<input type="text" name="docs_name[]" placeholder="Document Name">
+<input type="file" name="docs[]">
+</div>
+<div>
+<input type="text" name="docs_name[]" placeholder="Document Name">
+<input type="file" name="docs[]">
+</div>
+<div>
+<input type="text" name="docs_name[]" placeholder="Document Name">
+<input type="file" name="docs[]">
+</div>
+<div>
+<input type="text" name="docs_name[]" placeholder="Document Name">
+<input type="file" name="docs[]">
+</div>
+</div>
 <button>Submit</button>
 
 </form>

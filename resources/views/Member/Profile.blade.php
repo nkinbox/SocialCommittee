@@ -10,6 +10,7 @@
                 <div class="panel-body">
                     @if(!empty($member))
                     <div>
+                            <img src="{{ asset('storage/photograph/' . $member->image_name) }}" style="width: 50px;">
                     <h1>{{$member->first_name . ' ' . $member->last_name}}</h1>
                     <a href="{{ route('editMemberForm', ['id' => $member->member_id]) }}">Edit</a>
                     {{$member}}
@@ -28,10 +29,18 @@
                                 <input type="hidden" name="_method" value="delete">
                                 <button>Delete</button>
                             </form>
-                            
+                        </div>
                         @endforeach
                         @else
                         <p>No Nominee.</p>
+                        @endif
+                        @if(count($profile_docs) > 0)
+                        @foreach($profile_docs as $doc)
+                        <div>{{ $doc->document_name }}</div>
+                        <img src="{{ asset('storage/documents/' . $doc->file_name) }}" style="width: 300px;">
+                        @endforeach
+                        @else
+                        <p>No Documents</p>
                         @endif
                     </div>
                     @else
