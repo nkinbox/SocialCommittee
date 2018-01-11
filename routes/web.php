@@ -25,4 +25,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/nominee/edit/{nominee_id}', 'Member\Nominee@edit')->name('editNomineeForm');
     Route::put('/nominee/{nominee_id}', 'Member\Nominee@update')->name('editNominee');
     Route::delete('/nominee', 'Member\Nominee@destroy')->name('deleteNominee');
+
+    /* Above Route used in API*/
+    Route::get('/new_ecs/{member_id}', 'Finance\ECS@create')->name('addECSForm');
+    Route::post('/new_ecs', 'Finance\ECS@store')->name('addECS');
 });

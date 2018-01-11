@@ -13,7 +13,7 @@
 <div><a href="{{ route('showMember', ['id' => $member->member_id]) }}">Edit</a></div>
 
 <div><a href="{{ route('memberProfile', ['id' => $member->member_id]) }}">View</a></div>
-
+<div><a href="{{route('addECSForm', ['member_id' => $member->member_id])}}">New ECS</a></div>
 {{$member}}
 </div>
 @endforeach
