@@ -99,7 +99,7 @@ Edit member
 <form action="{{route('positionAllot' , ['id' => $member->member_id])}}" method="post">
         {{ csrf_field() }}
     <select name="position_id">
-        @if(count($positions) > 0)\
+        @if(count($positions) > 0)
         @foreach($positions as $position)
         <option value="{{$position->position_id}}">{{$position->position_name}}</option>
         @endforeach

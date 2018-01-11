@@ -12,9 +12,6 @@ class Nominee extends Controller
     {
         $this->middleware('authLevel:6');
     }
-    public function index($member_id) {
-        return view('Nominee.AddNominee')->with('member_id', $member_id);
-    }
     public function store(Request $request) {
         $request->validate([
             'member_id' => 'required|exists:member_details',
@@ -38,14 +35,18 @@ class Nominee extends Controller
         $nominee->altmobile_no = $request->altmobile_no;
         $nominee->address = $request->address;
         $nominee->save();
-        return redirect('home')->with('message',"Nominee Added Successfully.");
+        return response()->json(['message'=>'success']);
     }
-    public function edit($nominee_id) {
-        $nominee = NomineeModel::find($nominee_id);
-        return view('Nominee.EditNominee')->with('nominee', $nominee);
+    public function edit(Request $request) {
+        $nominee = NomineeModel::find($request->nominee_id);
+        return response()->json([
+            'message' => 'success',
+            'nominee' => $nominee
+            ]);
     }
-    public function update(Request $request, $nominee_id) {
+    public function update(Request $request) {
         $request->validate([
+            'nominee_id' => 'required|exists:nominee',
             'salutation' => 'max:5',
             'first_name' => 'required|max:45',
             'last_name' => 'required|max:45',
@@ -55,7 +56,7 @@ class Nominee extends Controller
             'altmobile_no' => 'max:10',
             'address' => 'required|max:250',
         ]);
-        $nominee = NomineeModel::find($nominee_id);
+        $nominee = NomineeModel::find($request->nominee_id);
         $nominee->salutation = $request->salutation;
         $nominee->first_name = $request->first_name;
         $nominee->last_name = $request->last_name;
@@ -65,12 +66,15 @@ class Nominee extends Controller
         $nominee->altmobile_no = $request->altmobile_no;
         $nominee->address = $request->address;
         $nominee->save();
-        return redirect('home')->with('message',"Nominee Added Successfully.");
+        return response()->json(['message'=>'success']);
     }
     public function destroy(Request $request) {
+        $request->validate([
+            'nominee_id' => 'required|exists:nominee',
+        ]);
         $nominee = NomineeModel::find($request->nominee_id);
         $nominee->deleted = 'y';
         $nominee->save();
-        return redirect('home')->with('message',"Nominee Deleted Successfully.");
+        return response()->json(['message'=>'success']);
     }
 }

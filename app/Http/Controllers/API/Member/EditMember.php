@@ -45,8 +45,10 @@ class EditMember extends Controller
             'data' => ['member' => $member, 'lobbyheads' => $lobbyheads, 'positions' => $positions]
             ]);
     }
-    public function update(Request $request, $id) {
+    public function update(Request $request) {
+        $id = $request->member_id;
         $request->validate([
+            'member_id' => 'exists:member_details,member_id',
             'membership_no' => 'required_if:status,a|max:10',
             'lobbyhead_id' => 'exists:member_details,member_id',
             'id_card' => 'max:1',
@@ -102,6 +104,8 @@ class EditMember extends Controller
         $member->membership_status = $membership_status;
         if(!is_null($photograph))
         $member->image_name = $photograph;
+        if(is_null($member->approved_on) && $request->status == 'a')
+        $member->approved_on = date("Y-m-d");
         $member->railway_id = $request->railway_id;
         $member->voter_id = $request->voter_id;
         $member->aadhar_no = $request->aadhar_no;
@@ -139,8 +143,8 @@ class EditMember extends Controller
         }
         return response()->json(['message'=>"success"]);
     }
-    public function position_allot(Request $request, $id) {
-        $member = User::find($id);
+    public function position_allot(Request $request) {
+        $member = User::find($request->member_id);
         if($member != null) {
         $member->positionid = $request->position_id;
         $member->save();

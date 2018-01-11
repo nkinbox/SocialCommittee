@@ -95,6 +95,8 @@ class EditMember extends Controller
         $member->membership_status = $membership_status;
         if(!is_null($photograph))
         $member->image_name = $photograph;
+        if(is_null($member->approved_on) && $request->status == 'a')
+        $member->approved_on = date("Y-m-d");
         $member->railway_id = $request->railway_id;
         $member->voter_id = $request->voter_id;
         $member->aadhar_no = $request->aadhar_no;

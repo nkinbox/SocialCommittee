@@ -18,7 +18,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/member/edit/{id}', 'Member\EditMember@edit')->name('editMemberForm');
     Route::post('/member/{id}', 'Member\EditMember@update')->name('editMember');
     Route::put('/member/{id}', 'Member\EditMember@position_allot')->name('positionAllot');
-    Route::delete('/member/{id}', 'Member\EditMember@destroy')->name('destroyMember');
+    //Route::delete('/member/{id}', 'Member\EditMember@destroy')->name('destroyMember');
 
     Route::get('/nominee/{member_id}', 'Member\Nominee@index')->name('addNomineeForm');
     Route::post('/nominee', 'Member\Nominee@store')->name('addNominee');
