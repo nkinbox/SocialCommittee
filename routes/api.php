@@ -7,7 +7,7 @@ Route::group(['middleware'=>'auth:api'], function(){
     Route::get('/member_profile', 'API\Member\ShowMember@show')->name('memberProfile');
     Route::get('/member_list', 'API\Member\AllMembers@show')->name('AllMemberList');
     Route::get('/lobby_members', 'API\Member\LobbyMember@show')->name('LobbyMemberList');
-    Route::post('/addmember', 'API\Member\Addmember@store')->name('addMember');
+    Route::post('/addmember', 'API\Member\AddMember@store')->name('addMember');
     Route::get('/pending', 'API\Member\EditMember@pendingApplications')->name('pendingApproval');
     Route::get('/member', 'API\Member\EditMember@show')->name('showMember');
     Route::get('/member/edit', 'API\Member\EditMember@edit')->name('editMemberForm');

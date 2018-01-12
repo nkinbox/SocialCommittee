@@ -22,9 +22,9 @@ New ECS
     <option value="{{$bank->bank_id}}">Use {{ $bank->bank_name }}</option>
     @endforeach
     @endif
-    <option value="0">Add New Bank</option>
+    <option value="">Add New Bank</option>
 </select>
-<input type="text" name="acc_no" placeholder="" value="{{ old('acc_no') }}">
+<input type="text" name="acc_no" placeholder="Acc Number" value="{{ old('acc_no') }}">
 <input type="text" name="ifsc_code" placeholder="ifsc_code"  value="{{ old('ifsc_code') }}">
 <input type="text" name="bank_name" placeholder="bank_name" value="{{ old('bank_name') }}">
 <input type="text" name="branch_name" placeholder="branch_name" value="{{ old('branch_name') }}">
@@ -62,5 +62,7 @@ New ECS
 <button>Submit</button>
 
 </form>
+@else
+No Member selected for New ECS
 @endif
 @endsection

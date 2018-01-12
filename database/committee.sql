@@ -55,8 +55,7 @@ CREATE TABLE `ecs_documents` (
   `sno` int(10) UNSIGNED NOT NULL,
   `document_name` varchar(100) NOT NULL,
   `esc_id` int(10) UNSIGNED NOT NULL,
-  `file_name` char(20) NOT NULL,
-  `file_extn` char(3) NOT NULL
+  `file_name` char(37) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `ecs_finance` (
@@ -83,8 +82,7 @@ CREATE TABLE `expense_documents` (
   `sno` int(10) UNSIGNED NOT NULL,
   `expense_id` int(10) UNSIGNED NOT NULL,
   `document_name` tinytext NOT NULL,
-  `file_name` char(20) NOT NULL,
-  `file_extn` char(3) NOT NULL
+  `file_name` char(37) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `members` (
@@ -195,8 +193,7 @@ CREATE TABLE `profile_documents` (
 
 CREATE TABLE `receipts_documents` (
   `receipt_id` int(10) UNSIGNED NOT NULL,
-  `file_name` char(20) NOT NULL,
-  `file_extn` char(3) NOT NULL
+  `file_name` char(37) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `password_resets` (

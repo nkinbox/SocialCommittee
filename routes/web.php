@@ -10,8 +10,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/member_list', 'Member\AllMembers@show')->name('AllMemberList');
     Route::get('/lobby_members', 'Member\LobbyMember@show')->name('LobbyMemberList');
 
-    Route::get('/addmember', 'Member\Addmember@index')->name('addMemberForm');
-    Route::post('/addmember', 'Member\Addmember@store')->name('addMember');
+    Route::get('/addmember', 'Member\AddMember@index')->name('addMemberForm');
+    Route::post('/addmember', 'Member\AddMember@store')->name('addMember');
 
     Route::get('/pending', 'Member\EditMember@pendingApplications')->name('pendingApproval');
     Route::get('/member/{id}', 'Member\EditMember@show')->name('showMember');
@@ -27,6 +27,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/nominee', 'Member\Nominee@destroy')->name('deleteNominee');
 
     /* Above Route used in API*/
-    Route::get('/new_ecs/{member_id}', 'Finance\ECS@create')->name('addECSForm');
+    Route::get('/new_ecs/{member}', 'Finance\ECS@create')->name('addECSForm');
     Route::post('/new_ecs', 'Finance\ECS@store')->name('addECS');
 });

@@ -17,7 +17,7 @@ class AddMember extends Controller
     }
 
     public function index() {
-        return view('member.AddMember');
+        return view('Member.AddMember');
     }
 
     public function store(Request $request) {
