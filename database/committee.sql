@@ -54,7 +54,7 @@ CREATE TABLE `ecs_details` (
 CREATE TABLE `ecs_documents` (
   `sno` int(10) UNSIGNED NOT NULL,
   `document_name` varchar(100) NOT NULL,
-  `esc_id` int(10) UNSIGNED NOT NULL,
+  `ecs_id` int(10) UNSIGNED NOT NULL,
   `file_name` char(37) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

@@ -19,10 +19,10 @@ New ECS
 <select name="bank_id">
     @if(count($banks)>0)
     @foreach($banks as $bank)
-    <option value="{{$bank->bank_id}}">Use {{ $bank->bank_name }}</option>
+    <option value="{{$bank->bank_id}}"{{ (old('bank_id') == $bank->bank_id) ? ' selected' : '' }}>Use {{ $bank->bank_name }}</option>
     @endforeach
     @endif
-    <option value="">Add New Bank</option>
+    <option value=""{{ (old('bank_id') == "") ? ' selected' : '' }}>Add New Bank</option>
 </select>
 <input type="text" name="acc_no" placeholder="Acc Number" value="{{ old('acc_no') }}">
 <input type="text" name="ifsc_code" placeholder="ifsc_code"  value="{{ old('ifsc_code') }}">
@@ -31,8 +31,8 @@ New ECS
 <br>
 <br>
 <select name="payment_for">
-    <option value="mf">Membership Fees</option>
-    <option value="lr">Loan Repayment</option>
+    <option value="mf"{{ (old('payment_for') == "mf") ? ' selected' : '' }}>Membership Fees</option>
+    <option value="lr"{{ (old('payment_for') == "lr") ? ' selected' : '' }}>Loan Repayment</option>
 </select>
 <input type="text" name="valid_from" placeholder="valid_from" value="{{ old('valid_from') }}">
 <input type="text" name="valid_till" placeholder="valid_till"  value="{{ old('valid_till') }}">

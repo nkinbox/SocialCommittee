@@ -29,4 +29,9 @@ Route::group(['middleware' => 'auth'], function () {
     /* Above Route used in API*/
     Route::get('/new_ecs/{member}', 'Finance\ECS@create')->name('addECSForm');
     Route::post('/new_ecs', 'Finance\ECS@store')->name('addECS');
+    Route::get('/all_ecs', 'Finance\ECS@index')->name('allECS');
+    Route::get('/ecs/edit/{ecs_id}', 'Finance\ECS@edit')->name('editECSForm');
+    Route::post('/ecs', 'Finance\ECS@update')->name('editECS');
+    Route::put('/ecs', 'Finance\ECS@destroy')->name('deleteECS');
+    Route::get('/ecs/{ecs_id}', 'Finance\ECS@show')->name('viewECS');
 });
