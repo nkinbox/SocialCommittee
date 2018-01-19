@@ -25,8 +25,17 @@ class Nominee extends Controller
             'relationship' => 'required|max:45',
             'mobile_no' => 'required|max:10',
             'altmobile_no' => 'max:10',
+            'photograph' => 'nullable|image|max:2000',
             'address' => 'required|max:250',
         ]);
+        $photograph = null;
+        if($request->hasFile('photograph')) {
+            $extn = $request->file('photograph')->getClientOriginalExtension();
+            $photograph = md5(str_random(20).time()) . '.' .$extn;
+            $request->file('photograph')->storeAs(
+                'public/photograph', $photograph
+            );
+        }
         $nominee = new NomineeModel;
         $nominee->member_id = $request->member_id;
         $nominee->salutation = $request->salutation;
@@ -36,6 +45,7 @@ class Nominee extends Controller
         $nominee->relationship = $request->relationship;
         $nominee->mobile_no = $request->mobile_no;
         $nominee->altmobile_no = $request->altmobile_no;
+        $nominee->image_name = $photograph;
         $nominee->address = $request->address;
         $nominee->save();
         return redirect('home')->with('message',"Nominee Added Successfully.");
@@ -53,8 +63,17 @@ class Nominee extends Controller
             'relationship' => 'required|max:45',
             'mobile_no' => 'required|max:10',
             'altmobile_no' => 'max:10',
+            'photograph' => 'nullable|image|max:2000',
             'address' => 'required|max:250',
         ]);
+        $photograph = null;
+        if($request->hasFile('photograph')) {
+            $extn = $request->file('photograph')->getClientOriginalExtension();
+            $photograph = md5(str_random(20).time()) . '.' .$extn;
+            $request->file('photograph')->storeAs(
+                'public/photograph', $photograph
+            );
+        }
         $nominee = NomineeModel::find($nominee_id);
         $nominee->salutation = $request->salutation;
         $nominee->first_name = $request->first_name;
@@ -63,9 +82,10 @@ class Nominee extends Controller
         $nominee->relationship = $request->relationship;
         $nominee->mobile_no = $request->mobile_no;
         $nominee->altmobile_no = $request->altmobile_no;
+        $nominee->image_name = $photograph;
         $nominee->address = $request->address;
         $nominee->save();
-        return redirect('home')->with('message',"Nominee Added Successfully.");
+        return redirect('home')->with('message',"Nominee Edited Successfully.");
     }
     public function destroy(Request $request) {
         $nominee = NomineeModel::find($request->nominee_id);

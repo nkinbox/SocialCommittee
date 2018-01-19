@@ -9,7 +9,6 @@ use App\Models\CommitteePositions;
 use App\Models\User;
 use App\Models\ProfileDocuments;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class EditMember extends Controller
 {
@@ -88,11 +87,12 @@ class EditMember extends Controller
             $user->save();
         }
         $photograph = null;
-        if($request->has('photograph')) {
-            $extn = 'jpg';
+        if($request->hasFile('photograph')) {
+            $extn = $request->file('photograph')->getClientOriginalExtension();
             $photograph = md5(str_random(20).time()) . '.' .$extn;
-            $content = base64_decode($request->photograph);
-            Storage::put('public/photograph/'. $photograph, $content);
+            $request->file('photograph')->storeAs(
+                'public/photograph', $photograph
+            );
         }
         $member = MemberDetails::find($id);
         $status = $member->status;
@@ -127,17 +127,18 @@ class EditMember extends Controller
         $member->permanent_address = $request->permanent_address;
         $member->save();
 
-        if($request->has('docs')) {
+        if($request->hasFile('docs')) {
             $documents = array();
-        foreach($request->docs as $key=>$doc) {
-            $extn = 'jpg';
+        foreach($request->file('docs') as $key=>$doc) {
+            $extn = $doc->getClientOriginalExtension();
             $document = md5(str_random(20).time()) . '.' .$extn;
-            $content = base64_decode($doc);
-            Storage::put('public/documents/'. $document, $content);
+            $doc->storeAs(
+                'public/documents', $document
+            );
             $docname = "(name not given)";
             if(array_key_exists($key, $request->docs_name) && $request->docs_name[$key] != null)
             $docname = $request->docs_name[$key];
-            $documents[] = array("member_id" => $member->member_id, "document_name" => $docname, "file_name" => $document);
+            $documents[] = array("member_id" => $id, "document_name" => $docname, "file_name" => $document);
         }
         ProfileDocuments::insert($documents);
         }

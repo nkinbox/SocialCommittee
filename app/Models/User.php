@@ -12,7 +12,7 @@ class User extends Authenticatable
     protected $primaryKey = "member_id";
     public $timestamps = false;
     protected $fillable = [
-        'member_id', 'membership_no', 'password'
+        'member_id', 'membership_no', 'email', 'password'
     ];
     protected $hidden = [
         'password', 'remember_token', 'api_token', 'otp'

@@ -1,13 +1,15 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+CREATE TABLE `authpolicy` (
+  `authlevel` int(10) UNSIGNED NOT NULL,
+  `description` tinytext
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `auth_level` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `position_id` int(10) UNSIGNED DEFAULT NULL,
+  `authlevel` int(10) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `bank_details` (
   `bank_id` int(10) UNSIGNED NOT NULL,
@@ -29,17 +31,6 @@ CREATE TABLE `committee_positions` (
   `position_id` int(10) UNSIGNED NOT NULL,
   `position_name` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `auth_level` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `position_id` int(10) UNSIGNED DEFAULT NULL,
-  `authlevel` int(10) UNSIGNED DEFAULT NULL,
- PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `authpolicy` (
-   `authlevel` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-   `description` TINYTEXT NULL ,
-   PRIMARY KEY (`authlevel`)) ENGINE = InnoDB;
 
 CREATE TABLE `ecs_details` (
   `ecs_id` int(10) UNSIGNED NOT NULL,
@@ -88,9 +79,10 @@ CREATE TABLE `expense_documents` (
 CREATE TABLE `members` (
   `member_id` int(10) UNSIGNED NOT NULL,
   `membership_no` varchar(10) DEFAULT NULL,
+  `email` varchar(45) NOT NULL,
   `password` char(60) DEFAULT NULL,
   `otp` char(60) DEFAULT NULL,
-  `remember_token` char(100) DEFAULT NULL,
+  `remember_token` char(60) DEFAULT NULL,
   `api_token` char(60) DEFAULT NULL,
   `positionid` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `membership_status` char(3) NOT NULL DEFAULT 'ON'
@@ -151,7 +143,7 @@ CREATE TABLE `messages` (
   `from_member_id` int(10) UNSIGNED NOT NULL,
   `heading` tinytext,
   `message` text NOT NULL,
-  `status` CHAR(1) NOT NULL DEFAULT 'n'
+  `status` char(1) NOT NULL DEFAULT 'n'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `nominee` (
@@ -164,8 +156,7 @@ CREATE TABLE `nominee` (
   `relationship` varchar(45) DEFAULT NULL,
   `mobile_no` char(10) NOT NULL,
   `altmobile_no` char(10) DEFAULT NULL,
-  `image_name` char(20) DEFAULT NULL,
-  `image_extn` char(3) DEFAULT NULL,
+  `image_name` char(37) DEFAULT NULL,
   `deleted` char(1) NOT NULL DEFAULT 'n',
   `address` tinytext
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -184,6 +175,12 @@ CREATE TABLE `notification_status` (
   `member_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `password_resets` (
+  `email` varchar(45) DEFAULT NULL,
+  `token` varchar(60) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `profile_documents` (
   `sno` int(10) UNSIGNED NOT NULL,
   `member_id` int(10) UNSIGNED NOT NULL,
@@ -196,11 +193,12 @@ CREATE TABLE `receipts_documents` (
   `file_name` char(37) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `password_resets` (
-  `email` varchar(45) DEFAULT NULL,
-  `token` int(11) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE `authpolicy`
+  ADD PRIMARY KEY (`authlevel`);
+
+ALTER TABLE `auth_level`
+  ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `bank_details`
   ADD PRIMARY KEY (`bank_id`);
@@ -255,6 +253,12 @@ ALTER TABLE `receipts_documents`
   ADD PRIMARY KEY (`receipt_id`);
 
 
+ALTER TABLE `authpolicy`
+  MODIFY `authlevel` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `auth_level`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `bank_details`
   MODIFY `bank_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
@@ -302,8 +306,3 @@ ALTER TABLE `profile_documents`
 
 ALTER TABLE `receipts_documents`
   MODIFY `receipt_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

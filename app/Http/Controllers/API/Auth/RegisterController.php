@@ -64,14 +64,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {   
-        $member_id = MemberDetails::where('membership_no', $data['membership_no'])->pluck('member_id')->all();
-        User::create([
-            'member_id' => $member_id[0],
+        $member = MemberDetails::where('membership_no', $data['membership_no'])->first();
+        return User::create([
+            'member_id' => $member->member_id,
             'membership_no' => $data['membership_no'],
+            'email' => $member->email,
             'password' => bcrypt($data['password']),
         ]);
-        
-
     }
 
     public function register(Request $request)

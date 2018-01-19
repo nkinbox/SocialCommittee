@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\MemberDetails;
 use App\Models\ProfileDocuments;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Validator;
 
 class AddMember extends Controller
@@ -43,15 +42,16 @@ class AddMember extends Controller
             'dor' => 'nullable|date',
             'current_address' => 'required|max:250',
             'permanent_address' => 'max:250',
-            'photograph' => 'required',
-            'docs_name.*' => 'nullable',
-            'docs.*' => 'nullable',
+            'photograph' => 'required|image|max:2000',
+            'docs_name.*' => 'nullable|max:100',
+            'docs.*' => 'nullable|image|max:2000',
         ]);
-        if($request->has('photograph')) {
-            $extn = 'jpg';
+        if($request->hasFile('photograph')) {
+            $extn = $request->file('photograph')->getClientOriginalExtension();
             $photograph = md5(str_random(20).time()) . '.' .$extn;
-            $content = base64_decode($request->photograph);
-            Storage::put('public/photograph/'. $photograph, $content);
+            $request->file('photograph')->storeAs(
+                'public/photograph', $photograph
+            );
         }
         $member = new MemberDetails;
         $referral_id = $member::where('membership_no', $request->introduced_by)->pluck('member_id')->first();
@@ -81,13 +81,14 @@ class AddMember extends Controller
         $member->save();
         $member->member_id;
 
-        if($request->has('docs')) {
+        if($request->hasFile('docs')) {
             $documents = array();
-        foreach($request->docs as $key=>$doc) {
-            $extn = 'jpg';
+        foreach($request->file('docs') as $key=>$doc) {
+            $extn = $doc->getClientOriginalExtension();
             $document = md5(str_random(20).time()) . '.' .$extn;
-            $content = base64_decode($doc);
-            Storage::put('public/documents/'. $document, $content);
+            $doc->storeAs(
+                'public/documents', $document
+            );
             $docname = "(name not given)";
             if(array_key_exists($key, $request->docs_name) && $request->docs_name[$key] != null)
             $docname = $request->docs_name[$key];
