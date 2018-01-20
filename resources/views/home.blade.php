@@ -25,6 +25,7 @@
                     <div><a href="{{route('AllMemberList')}}">All Member List</a></div>
                     <div><a href="{{route('LobbyMemberList')}}">Lobby Member List</a></div>
                     <div><a href="{{route('allECS')}}">All ECS</a></div>
+                    <div><a href="{{route('myBankDetails')}}">My Bank Details</a></div>
                 </div>
             </div>
         </div>

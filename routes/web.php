@@ -34,4 +34,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/ecs', 'Finance\ECS@update')->name('editECS');
     Route::put('/ecs', 'Finance\ECS@destroy')->name('deleteECS');
     Route::get('/ecs/{ecs_id}', 'Finance\ECS@show')->name('viewECS');
+
+    Route::get('/mybank', 'Finance\Bank@index')->name('myBankDetails');
+    Route::get('/bank/{bank_id}', 'Finance\Bank@show')->name('viewBank');
+    Route::get('/bank/{member}', 'Finance\Bank@create')->name('addBankForm');
+    Route::post('/bank', 'Finance\Bank@store')->name('addBank');
+    Route::get('/bank/edit/{bank_id}', 'Finance\Bank@edit')->name('editBankForm');
+    Route::put('/bank', 'Finance\Bank@update')->name('editBank');
 });

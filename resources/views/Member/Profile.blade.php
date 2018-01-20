@@ -16,6 +16,8 @@
                     {{$member}}
                     </div>
                     <div>
+                        <a href="{{ route('addECSForm', ['member_id' => $member->member_id]) }}">Add ECS</a><br>
+                        <a href="{{ route('addBankForm', ['member_id' => $member->member_id]) }}">Add Bank</a><br>
                         <h2>Nominee</h2>
                         <div><a href="{{ route('addNomineeForm', ['member_id' => $member->member_id]) }}">Add Nominee</a></div>
                         @if(count($nominees) > 0)
