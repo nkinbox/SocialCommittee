@@ -43,7 +43,7 @@ class LoginController extends Controller
     }
 
     protected function credentials(Request $request)
-    {
+    {   
         return [
             'membership_no' => $request->{$this->username()},
             'password' => $request->password,

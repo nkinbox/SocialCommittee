@@ -13,7 +13,7 @@ Edit Bank
 @if(!empty($bankDetails))
 {{$bankDetails->member->first_name}}
 
-<form action="{{route('editBank')}}" method="post" enctype="multipart/form-data">
+<form action="{{route('editBank')}}" method="post">
         {{ csrf_field() }}
     <input type="hidden" name="bank_id" value="{{$bankDetails->bank_id}}">
     <input type="text" name="acc_no" placeholder="Acc Number" value="{{ old('acc_no', $bankDetails->acc_no) }}">

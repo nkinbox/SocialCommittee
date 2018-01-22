@@ -28,7 +28,8 @@ class LoginController extends Controller
         ->where('membership_status', 'ON')->first();     
         if($user != null && Hash::check($request->password, $user->getAuthPassword())) {
             $token = Hash::make($request->membership_no . time());
-            $user->api_token = $token;
+            //$user->api_token = $token;
+            $user->api_token = "token";
             $user->save();
             return response()->json(array(
                "message"=>"success",

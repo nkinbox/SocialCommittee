@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\MemberDetails;
 use App\Models\ProfileDocuments;
 use Illuminate\Support\Facades\Auth;
+use App\Models\BankDetails;
+use App\Models\Nominee;
 use Validator;
 
 class AddMember extends Controller
@@ -32,6 +34,10 @@ class AddMember extends Controller
             'pf_no' => 'max:45',
             'designation' => 'max:45',
             'hq' => 'max:50',
+            "acc_no" => "required|max:45",
+            "ifsc_code" => "required|max:45",
+            "bank_name" => "required|max:60",
+            "branch_name" => "required|max:60",
             'salutation' => 'required|max:5',
             'first_name' => 'required|max:45',
             'last_name' => 'required|max:45',
@@ -42,7 +48,16 @@ class AddMember extends Controller
             'dor' => 'nullable|date',
             'current_address' => 'required|max:250',
             'permanent_address' => 'max:250',
+            'nsalutation' => 'max:5',
+            'nfirst_name' => 'required|max:45',
+            'nlast_name' => 'required|max:45',
+            'nemail' => 'email|max:45',
+            'relationship' => 'required|max:45',
+            'nmobile_no' => 'required|max:10',
+            'naltmobile_no' => 'max:10',
+            'naddress' => 'required|max:250',
             'photograph' => 'required|image|max:2000',
+            'nphotograph' => 'nullable|image|max:2000',
             'docs_name.*' => 'nullable|max:100',
             'docs.*' => 'nullable|image|max:2000',
         ]);
@@ -96,6 +111,36 @@ class AddMember extends Controller
         }
         ProfileDocuments::insert($documents);
         }
+
+        $bank = new BankDetails;
+        $bank->member_id = $member->member_id;
+        $bank->acc_no = $request->acc_no;
+        $bank->ifsc_code = $request->ifsc_code;
+        $bank->bank_name = $request->bank_name;
+        $bank->branch_name = $request->branch_name;
+        $bank->save();
+
+        $nphotograph = null;
+        if($request->hasFile('nphotograph')) {
+            $extn = $request->file('nphotograph')->getClientOriginalExtension();
+            $nphotograph = md5(str_random(20).time()) . '.' .$extn;
+            $request->file('nphotograph')->storeAs(
+                'public/photograph', $nphotograph
+            );
+        }
+        $nominee = new Nominee;
+        $nominee->member_id = $member->member_id;
+        $nominee->salutation = $request->nsalutation;
+        $nominee->first_name = $request->nfirst_name;
+        $nominee->last_name = $request->nlast_name;
+        $nominee->email = $request->nemail;
+        $nominee->relationship = $request->relationship;
+        $nominee->mobile_no = $request->nmobile_no;
+        $nominee->altmobile_no = $request->naltmobile_no;
+        $nominee->image_name = $nphotograph;
+        $nominee->address = $request->naddress;
+        $nominee->save();
+
         return redirect('home')->with('message',"Member Details sent for Approval Successfully.");
     }
 }

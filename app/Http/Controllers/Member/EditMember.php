@@ -18,13 +18,23 @@ class EditMember extends Controller
     }
     public function pendingApplications() {
         $members = MemberDetails::where('status', 'p')->paginate(10);
-        return view('Member.MembersList')->with('members', $members);
+        return view('Member.Pending')->with('members', $members);
     }
     public function show($id) {
         $member = MemberDetails::find($id);
         $nominees = $member->nominee()->where('deleted','n')->get();
         $docs = $member->profileDocs()->get();
         return view('Member.Profile')->with([
+            'member' => $member,
+            'nominees' => $nominees,
+            'profile_docs' => $docs,
+        ]);
+    }
+    public function approve($id) {
+        $member = MemberDetails::find($id);
+        $nominees = $member->nominee()->where('deleted','n')->get();
+        $docs = $member->profileDocs()->get();
+        return view('Member.Approval')->with([
             'member' => $member,
             'nominees' => $nominees,
             'profile_docs' => $docs,

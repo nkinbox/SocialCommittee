@@ -15,6 +15,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/pending', 'Member\EditMember@pendingApplications')->name('pendingApproval');
     Route::get('/member/{id}', 'Member\EditMember@show')->name('showMember');
+    Route::get('/member/approve/{id}', 'Member\EditMember@approve')->name('approveMember');
     Route::get('/member/edit/{id}', 'Member\EditMember@edit')->name('editMemberForm');
     Route::post('/member/{id}', 'Member\EditMember@update')->name('editMember');
     Route::put('/member/{id}', 'Member\EditMember@position_allot')->name('positionAllot');
@@ -37,8 +38,26 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/mybank', 'Finance\Bank@index')->name('myBankDetails');
     Route::get('/bank/{bank_id}', 'Finance\Bank@show')->name('viewBank');
-    Route::get('/bank/{member}', 'Finance\Bank@create')->name('addBankForm');
+    Route::get('/bank/add/{member}', 'Finance\Bank@create')->name('addBankForm');
     Route::post('/bank', 'Finance\Bank@store')->name('addBank');
     Route::get('/bank/edit/{bank_id}', 'Finance\Bank@edit')->name('editBankForm');
     Route::put('/bank', 'Finance\Bank@update')->name('editBank');
+
+    Route::get('/cron/membershipfees', 'Finance\MembershipFees@charge')->name('MembershipFeesCron');
+    Route::get('/cron/mfdefaulters', 'Finance\MembershipFees@defaulters')->name('MembershipFeesDefaultersCron');
+
+    Route::get('/fees/history', 'Finance\MembershipFees@index')->name('MembershipFeesHistory');
+    Route::get('/fees/statement/{fees_id}', 'Finance\MembershipFees@show')->name('MembershipFeesStatement');
+    Route::get('/fees/payment', 'Finance\MembershipFees@payment')->name('MembershipFeesPayment');
+    Route::post('/fees', 'Finance\MembershipFees@client_pay')->name('ClientSidePayment');
+
+    Route::get('/billdesk/{fees_id}', 'Finance\BillDesk@index')->name('billdesk');
+
+    Route::get('/membershipfees/all/{only?}', 'Finance\ApprovalMF@all')->name('AllMembershipFeesList');
+    Route::get('/membershipfees/mylobby/{only?}', 'Finance\ApprovalMF@lobby')->name('LobbyMembershipFeesList');
+    Route::get('/membershipfees/defaulters/all', 'Finance\ApprovalMF@all_defaulters')->name('AllMembershipFeesDefaultersList');
+    Route::get('/membershipfees/defaulters/mylobby', 'Finance\ApprovalMF@lobby_defaulters')->name('LobbyMembershipFeesDefaultersList');
+    //Route::get('/membershipfees/verified/all', 'Finance\ApprovalMF@all_verified')->name('AllMembershipFeesVerifiedList');
+    //Route::get('/membershipfees/verified/mylobby', 'Finance\ApprovalMF@lobby_verified')->name('LobbyMembershipFeesVerifiedList');
+    Route::post('/membershipfees/status', 'Finance\ApprovalMF@verify_payment')->name('MFStatus');
 });

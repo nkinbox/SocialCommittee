@@ -39,7 +39,7 @@ class ECS extends Controller
     }
 
     public function store(Request $request)
-    {
+    {   
         $request->validate([
             "member_id" => "exists:member_details,member_id",
             "bank_id" => "nullable|exists:bank_details",
@@ -53,6 +53,13 @@ class ECS extends Controller
             'docs_name.*' => 'nullable|max:100',
             'docs.*' => 'nullable|image|max:2000',
         ]);
+        if($request->payment_for == "mf") {
+        $ecs_active_exists = ECSDetails::where('member_id', $request->member_id)
+        ->where('payment_for', 'mf')
+        ->where('status', 'a')->first();
+        if(!is_null($ecs_active_exists)) {
+            return redirect('home')->with('message',"Active ECS Already Exists.");
+        }}
         $bank_id = $request->bank_id;
         if(is_null($bank_id)) {
         $bank = new BankDetails;

@@ -40,10 +40,11 @@ Edit member
 </select>
 
 <select name="fees_mode">
-    <option value="0">None Selected</option>
     <option value="cas"{{ ($member->fees_mode == "cas") ? ' selected' : '' }}>Cash</option>
+    <option value="trf"{{ ($member->fees_mode == "trf") ? ' selected' : ''}}>Bank Transfer</option>
     <option value="ecs"{{ ($member->fees_mode == "ecs") ? ' selected' : ''}}>ECS</option>
-    <option value="pdc"{{ ($member->fees_mode == "pdc") ? ' selected' : ''}}>Post Dated Cheque</option>
+    <option value="chq"{{ ($member->fees_mode == "chq") ? ' selected' : ''}}>Cheque</option>
+    <option value="oln"{{ ($member->fees_mode == "oln") ? ' selected' : ''}}>Online Payment</option>
 </select>
     <select name="salutation">
         <option{{ ($member->salutation == "Mr.") ? ' selected' : '' }}>Mr.</option>

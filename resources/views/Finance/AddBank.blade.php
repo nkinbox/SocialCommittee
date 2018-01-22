@@ -13,7 +13,7 @@ Add Bank
 @if(!empty($member))
 {{$member}}
 
-<form action="{{route('addBank')}}" method="post" enctype="multipart/form-data">
+<form action="{{route('addBank')}}" method="post">
         {{ csrf_field() }}
 <input type="hidden" name="member_id" value="{{$member->member_id}}">
 <input type="text" name="acc_no" placeholder="Acc Number" value="{{ old('acc_no') }}">
