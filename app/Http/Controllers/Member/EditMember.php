@@ -81,12 +81,6 @@ class EditMember extends Controller
         if($request->status == "a") {
             $membership_status = "ON";
         }
-        $user = User::find($id);
-        if($user != null) {
-            $user->membership_status = $membership_status;
-            $user->membership_no = $request->membership_no;
-            $user->save();
-        }
         $photograph = null;
         if($request->hasFile('photograph')) {
             $extn = $request->file('photograph')->getClientOriginalExtension();
@@ -143,17 +137,39 @@ class EditMember extends Controller
         }
         ProfileDocuments::insert($documents);
         }
-        if($status == "p" && $request->status == "a")
-        return redirect()->route('pendingApproval')->with('message', "Member Approved Successfully.");
-        return redirect('home')->with('message', "Member Details Updated Successfully.");
+        $user = User::find($id);
+        if(is_null($user)) {
+        $user = User::create([
+            'member_id' => $id,
+            'membership_no' => $request->membership_no,
+            'email' => $request->email,
+            'password' => bcrypt("12345678"),
+        ]);
+        $user->membership_status = $membership_status;
+        $user->membership_no = $request->membership_no;
+        $user->save();
+        }
+        if($user != null) {
+            $user->membership_no = $request->membership_no;
+            $user->email = $request->email;
+            $user->membership_status = $membership_status;
+            $user->membership_no = $request->membership_no;
+            $user->save();
+        }
+        //if($status == "p" && $request->status == "a")
+        //return redirect()->route('pendingApproval')->with('message', "Member Approved Successfully.");
+        //return redirect('home')->with('message', "Member Details Updated Successfully.");
+        return redirect()->back()->with('message', 'Operation Completed Successfully.');
     }
     public function position_allot(Request $request, $id) {
         $member = User::find($id);
         if($member != null) {
         $member->positionid = $request->position_id;
         $member->save();
+        } else {
+            return redirect()->back()->withErrors('Only Approved Members can be alloted position');
         }
-        return redirect('home')->with('message', "Member Details Updated Successfully.");
+        return redirect()->back()->with('message', 'Member Details Updated Successfully.');
     }
     public function destroy($id) {
 

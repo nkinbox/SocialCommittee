@@ -17,7 +17,7 @@
                       <img src="{{ asset('public/photograph/' . $member->image_name) }}" style="width:100px">
                     </div>
                     <div class="col-md-8">
-                      <a href="{{ route('editMemberForm', ['id' => $member->member_id]) }}">Approve/Reject</a>
+                      <a href="{{ route('editMemberForm', ['id' => $member->member_id]) }}" class="btn btn-warning">Approve/Reject</a>
                       <table class="table">
                         <tbody>
                           <tr>
