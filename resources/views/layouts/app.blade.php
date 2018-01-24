@@ -9,23 +9,18 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <title>IRS Batch 2007</title>
-
 <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
-
 <link rel="stylesheet" href="/assets/fonts/batch-icons/css/batch-icons.css">
-
 <link rel="stylesheet" href="/assets/css/bootstrap/bootstrap.min.css">
-
 <link rel="stylesheet" href="/assets/css/bootstrap/mdb.min.css">
-
 <link rel="stylesheet" href="/assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css">
-
 <link rel="stylesheet" href="/assets/css/hamburgers/hamburgers.css">
-
 <link rel="stylesheet" href="/assets/plugins/jvmaps/jqvmap.min.css">
-
 <link rel="stylesheet" href="/assets/css/quillpro/quillpro.css">
-
+@if(request()->route()->getName() == "allECS")
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+@endif
 </head>
 <body>
 <div id="app" class="container-fluid">
@@ -243,5 +238,47 @@
 
 <script type="text/javascript" src="/assets/js/scripts.js"></script>
 <script type="text/javascript" src="/assets/js/imagepick.js"></script>
+@if(request()->route()->getName() == "allECS")
+<script type="text/javascript">
+	$(document).ready(function() {
+    var printCounter = 0;
+    $('#example').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy',
+            {
+                extend: 'excel',
+                messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
+            },
+            {
+                extend: 'pdf',
+                messageBottom: null
+            },
+            {
+                extend: 'print',
+                messageTop: function () {
+                    printCounter++;
+ 
+                    if ( printCounter === 1 ) {
+                        return 'This is the first time you have printed this document.';
+                    }
+                    else {
+                        return 'You have printed this document '+printCounter+' times';
+                    }
+                },
+                messageBottom: null
+            }
+        ]
+    } );
+} );
+</script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="//cdn.datatables.net/buttons/1.4.2/js/buttons.print.min.js"></script>
+@endif
 </body>
 </html>

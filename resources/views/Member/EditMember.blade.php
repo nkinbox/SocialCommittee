@@ -33,7 +33,11 @@
                 <select class="form-control" name="position_id" style="margin:0">
                     @if(count($positions) > 0)
                     @foreach($positions as $position)
+                    @if(is_null($member->userModel))
                     <option value="{{$position->position_id}}">{{$position->position_name}}</option>
+                    @else
+                    <option value="{{$position->position_id}}"{{ (old('position_id', $member->userModel->positionid) == $position->position_id) ? ' selected' : '' }}>{{$position->position_name}}</option>
+                    @endif
                     @endforeach
                     @endif
                 </select>
